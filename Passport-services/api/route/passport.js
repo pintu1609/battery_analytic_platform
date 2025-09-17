@@ -19,7 +19,7 @@ router.post(
   createPassport
 );
 
-router.get("/:id", verifyToken, getPassport);
+router.get("/:id", verifyToken, authorizeRole("admin", "user"), getPassport);
 
 router.put("/:id", verifyToken, authorizeRole("admin"), updatePassport);
 

@@ -38,7 +38,7 @@ exports.loginUser = async (body) => {
     };
   }
 
-  const token = getAccessToken({ id: user._id, role: user.role });
+  const token = getAccessToken({ id: user._id, role: user.role, email: user.email });
 
   return {
     message: "User logged in successfully",

@@ -17,8 +17,6 @@ exports.testNotification = async (req, res, next) => {
     });
     console.log("🚀 ~ notification:", notification);
 
-    // send email/logging
-    //    const result = await sendEmail(recipient || "default@demo.com", `Notification: ${eventType}`, message);
     const result = await sendEmail({
       receverEmail: recipient || "default@demo.com",
       subject: `Notification: ${eventType}`,
@@ -30,13 +28,17 @@ exports.testNotification = async (req, res, next) => {
     if (result.status !== 200 || notification.status !== 201)
       return clientHandler({}, res, result.message, result.status);
 
+    const updatedNotification = await service.updateNotificationStatus(notification.data._id, "sent");
+
     return responseHandler(
-      notification.data,
+      updatedNotification.data,
       res,
       notification.message,
       notification.status
     );
+
   } catch (err) {
+    console.log("🚀 ~ err:", err)
     useErrorHandler(err, req, res);
     next(err);
   }

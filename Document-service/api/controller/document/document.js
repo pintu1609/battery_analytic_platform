@@ -5,10 +5,9 @@ const {
 } = require("../../middleware/response-handler");
 const service = require("../../service/document/document");
 exports.uploadDocument = async (req, res) => {
-  const userId = req.user._id;
   try {
     if (!req.file) return clientHandler({}, res, "No file uploaded", 400);
-
+    const userId = req.user.id;
     const s3Result = await service.uploaddoc(req.file, userId);
     if (s3Result.status !== 200)
       return clientHandler({}, res, s3Result.message, s3Result.status);

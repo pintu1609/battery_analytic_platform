@@ -1,4 +1,9 @@
 version: "3.8"
+
+networks:
+  app-net:
+    name: app-net            # creates a user-defined bridge network named "app-net"
+    driver: bridge
 services:
 
   mongo:
@@ -11,6 +16,9 @@ services:
       MONGO_INITDB_DATABASE: battery_analytic_platform
     volumes:
       - mongo-data:/data/db
+    networks:
+      app-net:
+        aliases: ["mongo"]
 
 
   zookeeper:
@@ -22,6 +30,9 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
+    networks:
+      app-net:
+        aliases: ["zookeeper"]
   # kafka:
   #   image: confluentinc/cp-kafka:7.5.0
   #   container_name: kafka
@@ -62,7 +73,9 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-
+    networks:
+      app-net:
+        aliases: ["kafka"]
 
   auth-service:
     build: ./Auth-service
@@ -74,7 +87,9 @@ services:
       - "5000:5000"
     depends_on:
       - mongo
-
+    networks:
+      app-net:
+        aliases: ["auth_service"]
 
   document-service:
     build: ./Document-service
@@ -86,6 +101,9 @@ services:
       - "5001:5000"
     depends_on:
       - mongo
+    networks:
+      app-net:
+        aliases: ["document_service"]
 
   notification-service:
       build: ./Notification-service
@@ -98,6 +116,9 @@ services:
         - mongo
         - kafka
       restart: unless-stopped
+      networks:
+        app-net:
+          aliases: ["notification_service"]
   passport-service:
     build: ./Passport-services
     container_name: passport_service
@@ -107,6 +128,8 @@ services:
     depends_on:
       - mongo
       - kafka
-
+    networks:
+      app-net:
+        aliases: ["passport_service"]
 volumes:
   mongo-data:

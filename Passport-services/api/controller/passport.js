@@ -1,10 +1,12 @@
 const service = require('../service/passport');
 const { responseHandler, clientHandler } = require('../middleware/response-handler');
 const {useErrorHandler} = require("../middleware/error-handler");
+const { emit } = require('../model/passport');
 
 exports.createPassport = async (req, res) => {
   try {
-    const result = await service.createPassport(req.body);
+    const email = req.user.email
+    const result = await service.createPassport(req.body, email);
     responseHandler(result.data, res, result.message, result.status);
   } catch (err) {
     useErrorHandler(err, req, res);
@@ -23,7 +25,8 @@ exports.getPassport = async (req, res) => {
 
 exports.updatePassport = async (req, res) => {
   try {
-    const result = await service.updatePassport(req.params.id, req.body);
+        const email = req.user.email
+    const result = await service.updatePassport(req.params.id, req.body, email);
         if (result.status !== 200) return clientHandler({}, res, result.message, result.status);
 
     responseHandler(result.data, res, result.message, 200);
@@ -34,7 +37,8 @@ exports.updatePassport = async (req, res) => {
 
 exports.deletePassport = async (req, res) => {
   try {
-    const result = await service.deletePassport(req.params.id);
+    const email = req.user.email
+    const result = await service.deletePassport(req.params.id, email);
     responseHandler({}, res, result.message, 200);
   } catch (err) {
     useErrorHandler(err, req, res);

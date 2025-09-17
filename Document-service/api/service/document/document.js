@@ -22,6 +22,7 @@ exports.uploaddoc = async (file, userId) => {
     data: {
       docId: doc._id,
       fileName: doc.fileName,
+      createdBy: doc.createdBy,
       createdAt: doc.createdAt,
     },
     status: 200,
@@ -29,7 +30,6 @@ exports.uploaddoc = async (file, userId) => {
 };
 
 exports.updatedoc = async (docId, data) => {
-  console.log("🚀 ~ data:", data);
   const doc = await dal.findByID(document, docId);
   if (!doc) {
     return {
