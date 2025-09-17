@@ -1,12 +1,7 @@
-
-
-
 require("dotenv").config();
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 let dbConnection;
-
-
 
 const options = {
   dbName: process.env.DB_NAME || "battery_analytic_platform",

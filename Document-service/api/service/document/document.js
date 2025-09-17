@@ -3,8 +3,6 @@ const document = require("../../model/document/document");
 const dal = require("../../helper/dal");
 
 exports.uploaddoc = async (file, userId) => {
-  console.log("🚀 ~ userId:", userId);
-  console.log("🚀 ~ file:", file);
   if (!file) {
     return {
       message: "No file uploaded",
@@ -40,8 +38,6 @@ exports.updatedoc = async (docId, data) => {
     };
   }
 
-  // doc.fileName = data.fileName;
-  // await doc.save();
   const uodatedoc = await dal.findOneAndUpdate(document, { _id: docId }, data, {
     new: true,
   });

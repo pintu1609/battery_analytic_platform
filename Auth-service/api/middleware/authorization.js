@@ -4,7 +4,6 @@ const { useErrorHandler } = require("./error-handler");
 
 exports.verifyToken = (req, res, next) => {
   const token = req.headers["authorization"]?.split(" ")[1];
-  console.log("🚀 ~ token:", token);
   if (!token) return clientHandler({}, res, "No token provided", 401);
 
   try {

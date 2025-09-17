@@ -1,23 +1,28 @@
 const router = require("express").Router();
-const {createPassport, getPassport, updatePassport, deletePassport } = require("../controller/passport");
-
+const {
+  createPassport,
+  getPassport,
+  updatePassport,
+  deletePassport,
+} = require("../controller/passport");
 
 const userValidator = require("../validation/passport"); // Validation Schema
-const  validate  = require("../middleware/validate");
+const validate = require("../middleware/validate");
 
-const { verifyToken, authorizeRole } = require('../middleware/authorization');
+const { verifyToken, authorizeRole } = require("../middleware/authorization");
 
+router.post(
+  "/",
+  verifyToken,
+  authorizeRole("admin"),
+  validate(userValidator.passportSchema),
+  createPassport
+);
 
-router.post('/', verifyToken, authorizeRole('admin'), validate(userValidator.passportSchema), createPassport);
+router.get("/:id", verifyToken, getPassport);
 
-router.get('/:id', verifyToken, getPassport);
+router.put("/:id", verifyToken, authorizeRole("admin"), updatePassport);
 
-router.put('/:id', verifyToken, authorizeRole('admin'), updatePassport);
+router.delete("/:id", verifyToken, authorizeRole("admin"), deletePassport);
 
-router.delete('/:id', verifyToken, authorizeRole('admin'), deletePassport);
-
-
-
-
-
-  module.exports = router;
+module.exports = router;

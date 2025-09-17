@@ -20,12 +20,8 @@ exports.uploadDocument = async (req, res) => {
 };
 
 exports.updateDocument = async (req, res) => {
-  console.log("🚀 ~ req:", req);
-  console.log("🚀 ~ req.body:", req.body);
-
   try {
     const doc = await service.updatedoc(req.params.docId, req.body);
-    console.log("🚀 ~ doc:", doc);
     if (doc.status !== 200)
       return clientHandler({}, res, doc.message, doc.status);
     return responseHandler(doc.data, res, doc.message, 200);
