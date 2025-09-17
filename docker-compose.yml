@@ -90,6 +90,12 @@ services:
     networks:
       app-net:
         aliases: ["auth_service"]
+    dns: [8.8.8.8, 1.1.1.1]
+    dns_opt: ["timeout:1", "attempts:3"]
+    sysctls:
+        - net.ipv6.conf.all.disable_ipv6=1
+        - net.ipv6.conf.default.disable_ipv6=1
+
 
   document-service:
     build: ./Document-service
@@ -104,6 +110,13 @@ services:
     networks:
       app-net:
         aliases: ["document_service"]
+    dns: [8.8.8.8, 1.1.1.1]
+    dns_opt: ["timeout:1", "attempts:3"]
+    sysctls:
+        - net.ipv6.conf.all.disable_ipv6=1
+        - net.ipv6.conf.default.disable_ipv6=1
+
+    
 
   notification-service:
       build: ./Notification-service
@@ -119,6 +132,12 @@ services:
       networks:
         app-net:
           aliases: ["notification_service"]
+      dns: [8.8.8.8, 1.1.1.1]
+      dns_opt: ["timeout:1", "attempts:3"]
+      sysctls:
+        - net.ipv6.conf.all.disable_ipv6=1
+        - net.ipv6.conf.default.disable_ipv6=1
+
   passport-service:
     build: ./Passport-services
     container_name: passport_service
@@ -131,5 +150,11 @@ services:
     networks:
       app-net:
         aliases: ["passport_service"]
+    dns: [8.8.8.8, 1.1.1.1]
+    dns_opt: ["timeout:1", "attempts:3"]
+    sysctls:
+        - net.ipv6.conf.all.disable_ipv6=1
+        - net.ipv6.conf.default.disable_ipv6=1
+
 volumes:
   mongo-data:
