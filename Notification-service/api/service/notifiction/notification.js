@@ -11,8 +11,6 @@ exports.createNotification = async (data) => {
 };
 
 exports.updateNotificationStatus = async (id, status) => {
-  console.log("🚀 ~ status:", status)
-  console.log("🚀 ~ id:", id)
   const notification = await dal.findByID(model, id);
   if (!notification) return { status: 404, message: "Notification not found" };
 

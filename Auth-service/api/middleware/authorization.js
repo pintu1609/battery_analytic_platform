@@ -8,7 +8,6 @@ exports.verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_PRIVATE_KEY);
-    console.log("🚀 ~ decoded:", decoded);
     req.user = decoded;
     next();
   } catch (err) {

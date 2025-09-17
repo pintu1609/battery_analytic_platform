@@ -2,9 +2,8 @@ const { clientHandler } = require("../middleware/response-handler");
 
 const { Resend } = require("resend");
 
-const resend = new Resend(process.env.API_KEY); 
+const resend = new Resend(process.env.API_KEY);
 exports.sendEmail = async ({ receverEmail, subject, desc }) => {
-    console.log("🚀 ~ exports.sendEmail= ~ receverEmail, subject, desc:", receverEmail, subject, desc)
   if (!process.env.EMAIL_USER) {
     return clientHandler({
       message: "Email receiver or user not defined in environment variables.",
@@ -18,11 +17,9 @@ exports.sendEmail = async ({ receverEmail, subject, desc }) => {
     subject: subject,
     text: desc,
   };
-  console.log("🚀 ~ messageData:", messageData)
 
   try {
     const response = await resend.emails.send(messageData);
-    console.log("🚀 ~ response:", response)
     return { status: 200, message: "Email sent successfully", data: response };
   } catch (error) {
     console.log("🚀 ~ exports.sendEmail= ~ error:", error);

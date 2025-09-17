@@ -1,7 +1,6 @@
-const service = require('../service/passport');
-const { responseHandler, clientHandler } = require('../middleware/response-handler');
-const {useErrorHandler} = require("../middleware/error-handler");
-const { emit } = require('../model/passport');
+const service = require('../../service/passport/passport');
+const { responseHandler, clientHandler } = require('../../middleware/response-handler');
+const {useErrorHandler} = require("../../middleware/error-handler");
 
 exports.createPassport = async (req, res) => {
   try {

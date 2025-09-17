@@ -4,7 +4,6 @@ const { sendEmail } = require("./sendemail");
 
 const kafka = new Kafka({
   clientId: "notification-service",
-  // brokers: [process.env.KAFKA_BROKER || "host.docker.internal:29092"],
   brokers: [process.env.KAFKA_BROKER || "kafka:9092"],
 });
 
@@ -18,24 +17,21 @@ exports.startKafkaConsumer = async () => {
   await consumer.subscribe({ topic: "passport.deleted", fromBeginning: true });
 
   await consumer.run({
-    eachMessage: async ({ topic,partition, message}) => {
-      console.log("🚀 ~ message:", message)
+    eachMessage: async ({ topic, partition, message }) => {
       const raw = message.value?.toString() ?? "";
-        let payload = null;
-        try {
-          payload = raw ? JSON.parse(raw) : null;
-          console.log("🚀 ~ payload:", payload)
-        } catch (e) {
-          console.error("JSON parse error:", e.message, "raw=", raw);
-          return; // skip bad message
-        }
-        
+      let payload = null;
+      try {
+        payload = raw ? JSON.parse(raw) : null;
+      } catch (e) {
+        console.error("JSON parse error:", e.message, "raw=", raw);
+        return;
+      }
+
       const notification = await service.createNotification({
         recipient: payload.recipient,
         eventType: topic,
         message: payload.message,
       });
-      console.log("🚀 ~ notification:", notification)
 
       const result = await sendEmail({
         receverEmail: payload.recipient || "default@demo.com",

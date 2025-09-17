@@ -4,12 +4,12 @@ const {
   getPassport,
   updatePassport,
   deletePassport,
-} = require("../controller/passport");
+} = require("../../controller/passport/passport");
 
-const userValidator = require("../validation/passport"); // Validation Schema
-const validate = require("../middleware/validate");
+const userValidator = require("../../validation/passport/passport"); 
+const validate = require("../../middleware/validate");
 
-const { verifyToken, authorizeRole } = require("../middleware/authorization");
+const { verifyToken, authorizeRole } = require("../../middleware/authorization");
 
 router.post(
   "/",
