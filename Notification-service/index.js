@@ -20,14 +20,24 @@ app.use("/api/v1/", routes);
 const server = http.createServer(app);
 const portNumber = process.env.PORT || 5000;
 
-server.listen(portNumber,async (err) => {
-  console.log("portNumber ", process.env.PORT);
-  await startKafkaConsumer();
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(`Listening on port ${portNumber}`);
+
+const startServer = async () => {
+  try {
+    // ✅ Connect to database first
+    await db.connectToDatabase();
+
+    // ✅ Start Kafka consumer after DB is ready
+    await startKafkaConsumer();
+
+    server.listen(portNumber, () => {
+      console.log(`Server is running on port ${portNumber}`);
+    });
+  } catch (err) {
+    console.error("Failed to start server:", err);
+    process.exit(1); // Stop server if DB or Kafka fails
   }
-});
+};
+
+startServer();
 
 app.use(useErrorHandler);
