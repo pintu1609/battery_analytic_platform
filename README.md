@@ -12,7 +12,7 @@ This repository contains a microservices-based Battery Analytics Platform, built
 
         Passport Service – Handles passport-related data and communicates via Kafka.
 
-# File Structure
+## File Structure
 
 backend/
 │── Auth-service/
