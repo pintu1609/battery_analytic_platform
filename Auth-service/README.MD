@@ -6,13 +6,15 @@
 2. Create a .env file in the root
 
     PORT=5000
-    DB_STRING=mongodb://localhost:27017
+    DATABASE_URL=mongodb+srv://<username>:<password>@cluster0.kqbqscz.mongodb.net/battery_analytic_platform
+    JWT_SECRET=<ENTER_JWT_SECRET>
+    DB_STRING=mongodb+srv://<username>:<password>@cluster0.kqbqscz.mongodb.net
     DB_NAME=battery_analytic_platform
     EMAIL_USER=resend@mail.factory.soluperts.com
     API_KEY=<YOUR_RESEND_API_KEY>
     ACCESS_TOKEN_PRIVATE_KEY=<YOUR_JWT_PRIVATE_KEY>
-    REFRESH_TOKEN_PRIVATE_KEY=<YOUR_REFRESH_JWT_KEY>
     ACCESS_TOKEN_EXPIRY_DAY=30d
+    NODE_OPTIONS=--dns-result-order=ipv4first
 
 3. Running Locally
 
