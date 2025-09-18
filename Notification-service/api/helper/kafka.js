@@ -1,6 +1,7 @@
 const { Kafka } = require("kafkajs");
 const service = require("../service/notifiction/notification");
 const { sendEmail } = require("./sendemail");
+const { generatePassportEmail } = require("./emailTemplate");
 
 const kafka = new Kafka({
   clientId: "notification-service",
@@ -32,11 +33,13 @@ exports.startKafkaConsumer = async () => {
         eventType: topic,
         message: payload.message,
       });
+      const emailHtml = generatePassportEmail(topic, payload);
+
 
       const result = await sendEmail({
         receverEmail: payload.recipient || "default@demo.com",
         subject: `Notification: ${topic}`,
-        desc: payload.message,
+        desc:emailHtml
       });
 
       await service.updateNotificationStatus(notification.data._id, "sent");

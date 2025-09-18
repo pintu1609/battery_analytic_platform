@@ -7,10 +7,11 @@ const producer = new kafka.Producer(client);
 producer.on("ready", () => console.log("Kafka Producer Ready ✅"));
 producer.on("error", (err) => console.error("Kafka Error ❌", err));
 
-exports.sendMessage = (topic, message, email) => {
+exports.sendMessage = (topic, message, email,data=null) => {
   const payload = {
     message: message,
     recipient: email || null,
+    data
   };
 
   producer.send([{ topic, messages: JSON.stringify(payload) }], (err, data) => {

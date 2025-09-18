@@ -16,6 +16,7 @@ exports.sendEmail = async ({ receverEmail, subject, desc }) => {
     to: receverEmail,
     subject: subject,
     text: desc,
+    html: desc,
   };
 
   try {
